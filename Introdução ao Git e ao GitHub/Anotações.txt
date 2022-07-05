@@ -1,3 +1,32 @@
-link para Download do Git
+*** link para Download do Git
 
 https://gitforwindows.org/
+
+*** Passo a passo para criar o repositório Github
+1) Acesse Github.com
+2) Clicar sobre seu Avatar e selecionar a opção "Your Repositories"
+3) Clicar no botão "NEW"
+4) Informe o "Repository name", defina se será Public ou Private, marque a opção "Add a READEME" e clique no botão "Create repository"
+
+*** Passo a passo para clonar o repositório para seu computador
+1) Localize o repositório no GitHub, clique no botão "Code", em seguida copie o caminho HTTPS
+2) Localize a pasta que irá receber o repositório em seu computador
+3) Clicar com o botão direito do mouse e selecionar a opção "Git Bash Here"
+4) Será aberto o terminal, digite o comando para clonar: git clone + "Endereço HTTPS do repositório GitHub"
+
+*** Passo a passo para enviar alterações no repositório em seu PC para o GitHub
+1) Localize a pasta onde está o arquivo a ser sincronizado dentro do terminar GitBash
+2) Digite o comando para adicionar para a sincronização: git add . ou git add -a
+3) Digite o comando para salvar as alterações: git commit -m "Mensagem"
+4) Digite o comando para enviar os arquivo para o Github: git push origin main
+
+*** Outro comando Git
+
+- Para puxar o arquivos mais atualizado do GitHub
+	git pull origin main
+
+- Para consultar o Status das alterações
+	git status
+	
+
+ 
