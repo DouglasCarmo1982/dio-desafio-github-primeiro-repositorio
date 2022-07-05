@@ -19,7 +19,7 @@ https://gitforwindows.org/
 3) Digite o comando para salvar as alterações: git commit -m "Mensagem"
 4) Digite o comando para enviar os arquivo para o Github: git push origin main
 
-*** Outro comando Git
+*** Outros comandos Git
 
 - Para puxar o arquivos mais atualizado do GitHub
 	git pull origin main
