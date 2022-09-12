@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RESUMOFATFRANQ" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PDIR_MODELO" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="CODPARC" class="java.math.BigDecimal"/>
+	<parameter name="LOJA" class="java.math.BigDecimal"/>
+	<parameter name="DTINI" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[SELECT APU.CODPARC
+     , APU.LOJA
+     , APU.NOMEPARC
+     , APU.CNPJ
+     , APU.DTINI
+     , APU.DTFIN
+	 , ROUND(ISNULL(APU.VLRFATURAMENTO,0),2) AS VLRFATURAMENTO
+	 , ROUND(ISNULL(APU.VLRDEVOLVIDO,0),2) AS VLRDEVOLVIDO
+	 , ROUND(ISNULL(APU.VLRFATLIQ,0),2) AS VLRFATLIQ
+	 , RTRIM(CAST(ISNULL(APU.PERCROYALTIES,0) AS CHAR)) AS PERCROYALTIES
+	 , ROUND(ISNULL(APU.VLRROY,0),2) AS VLRROY
+	 , RTRIM(CAST(ISNULL(APU.PERCFPP,0) AS CHAR)) AS PERCFPP
+	 , ROUND(ISNULL(APU.VLRFPPLIQ,0),2) AS VLRFPPLIQ
+	 , ROUND(ISNULL(APU.TAXAECAD,0),2) AS TAXAECAD
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 0),0),2) AS TAXAOMNI
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 1),0),2) AS DESCROYA
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 2),0),2) AS DESCFPP
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 3),0),2) AS DESCDIRROY
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 4),0),2) AS DESCDIRFPP
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 5),0),2) AS DESCTCNROY
+	 , ROUND(ISNULL((SELECT SUM(VALOR) FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 6),0),2) AS DESCTCNFPP
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 1),'') AS OBSROYA
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 2),'') AS OBSFPP
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 3),'') AS OBSDIRROY
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 4),'') AS OBSDIRFPP
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 5),'') AS OBSTCNROY
+	 , ISNULL((SELECT OBS FROM AD_TRFAJU AJU WHERE RES.CODPARC = AJU.CODPARC AND APU.DTINI = AJU.DTINI AND AJU.TIPO = 6),'') AS OBSTCNFPP
+  FROM AD_TRFRES RES
+ INNER JOIN AD_TRFAPU APU ON RES.CODPARC = APU.CODPARC
+ WHERE APU.CODPARC = $P{CODPARC}
+   AND APU.LOJA = $P{LOJA}
+   AND FORMAT(APU.DTINI,'dd/MM/yyyy')= $P{DTINI}
+   AND FORMAT(DTENVIOEMAIL,'dd/MM/yyyy') = FORMAT(GETDATE(),'dd/MM/yyyy') ]]>
+	</queryString>
+	<field name="CODPARC" class="java.lang.Integer"/>
+	<field name="LOJA" class="java.lang.Integer"/>
+	<field name="NOMEPARC" class="java.lang.String"/>
+	<field name="CNPJ" class="java.lang.String"/>
+	<field name="DTINI" class="java.sql.Timestamp"/>
+	<field name="DTFIN" class="java.sql.Timestamp"/>
+	<field name="VLRFATURAMENTO" class="java.lang.Double"/>
+	<field name="VLRDEVOLVIDO" class="java.lang.Double"/>
+	<field name="VLRFATLIQ" class="java.lang.Double"/>
+	<field name="PERCROYALTIES" class="java.lang.String"/>
+	<field name="VLRROY" class="java.lang.Double"/>
+	<field name="PERCFPP" class="java.lang.String"/>
+	<field name="VLRFPPLIQ" class="java.lang.Double"/>
+	<field name="TAXAECAD" class="java.lang.Double"/>
+	<field name="TAXAOMNI" class="java.lang.Double"/>
+	<field name="DESCROYA" class="java.lang.Double"/>
+	<field name="DESCFPP" class="java.lang.Double"/>
+	<field name="DESCDIRROY" class="java.lang.Double"/>
+	<field name="DESCDIRFPP" class="java.lang.Double"/>
+	<field name="DESCTCNROY" class="java.lang.Double"/>
+	<field name="DESCTCNFPP" class="java.lang.Double"/>
+	<field name="OBSROYA" class="java.lang.String"/>
+	<field name="OBSFPP" class="java.lang.String"/>
+	<field name="OBSDIRROY" class="java.lang.String"/>
+	<field name="OBSDIRFPP" class="java.lang.String"/>
+	<field name="OBSTCNROY" class="java.lang.String"/>
+	<field name="OBSTCNFPP" class="java.lang.String"/>
+	<group name="DTINI">
+		<groupExpression><![CDATA[$F{DTINI}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="105" y="3" width="450" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Demonstrativo Faturamento do Franqueado]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="2" y="3" width="103" height="49"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{PDIR_MODELO}+"Logo.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="105" y="23" width="450" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{NOMEPARC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="43" width="450" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Período de "+new SimpleDateFormat("dd/MM/yyyy").format($F{DTINI})+" à "+new SimpleDateFormat("dd/MM/yyyy").format($F{DTFIN})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="259" splitType="Stretch">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="15" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRFATURAMENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="15" width="460" height="15"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Compras]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="473" y="30" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRDEVOLVIDO}*-1]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="30" width="460" height="15"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[( - ) Devoluções]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="473" y="0" width="81" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRFATLIQ}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="70" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRROY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="70" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Royalties Total ("+$F{PERCROYALTIES}+"%)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="473" y="155" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRFPPLIQ}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="155" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Fundo de Promoção ("+$F{PERCFPP}+"%)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement positionType="Float" x="473" y="100" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCTCNROY}*-1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="13" y="100" width="461" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos Tecnologística: "+$F{OBSTCNROY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="475" y="85" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCROYA}*-1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="85" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos s/ Royalties: "+$F{OBSROYA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="473" y="185" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCFPP}*-1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="185" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos s/ Fundo de Promoção: "+$F{OBSFPP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement positionType="Float" x="473" y="115" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCDIRROY}*-1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="13" y="115" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos Diretoria: "+$F{OBSDIRROY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="473" y="240" width="80" height="15">
+					<printWhenExpression><![CDATA[$F{TAXAOMNI} != 0]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{TAXAOMNI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="0" width="471" height="15" backcolor="#CCCCCC"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compras realizadas na Tecnologística]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="55" width="472" height="15"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[1 - Royalties]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="55" width="80" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRROY}-$F{DESCROYA}-$F{DESCDIRROY}-$F{DESCTCNROY}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="140" width="472" height="15"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[2 - Fundo de Promoção]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="473" y="140" width="80" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRFPPLIQ}-$F{DESCFPP}+$F{TAXAECAD}-$F{DESCDIRFPP}-$F{DESCTCNFPP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="240" width="471" height="15">
+					<printWhenExpression><![CDATA[$F{TAXAOMNI} != 0]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[3 - Taxa Vendas Omnichannel]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="13" y="170" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( + ) Taxa ECAD"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="474" y="170" width="79" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{TAXAECAD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="13" y="200" width="461" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos Tecnologística: "+$F{OBSTCNFPP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement positionType="Float" x="473" y="215" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCDIRFPP}*-1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="13" y="215" width="460" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["( - ) Descontos Diretoria: "+$F{OBSDIRFPP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement positionType="Float" x="473" y="200" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{DESCTCNFPP}*-1]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="144" y="1" width="329" height="15"/>
+				<box>
+					<pen lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineStyle="Double"/>
+					<bottomPen lineStyle="Double"/>
+					<rightPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total Boletos (1+2+3) :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="473" y="1" width="80" height="15"/>
+				<box>
+					<pen lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineStyle="Double"/>
+					<bottomPen lineStyle="Double"/>
+					<rightPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{VLRROY}-$F{DESCROYA}-$F{DESCDIRROY}-$F{DESCTCNROY}+$F{VLRFPPLIQ}-$F{DESCFPP}+$F{TAXAECAD}-$F{DESCDIRFPP}-$F{DESCTCNFPP}+$F{TAXAOMNI}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
